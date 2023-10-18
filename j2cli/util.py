@@ -1,9 +1,7 @@
-import sys
-import shutil
 import functools
-
+import shutil
+import sys
 from typing import Dict, List, Tuple, cast
-
 
 print_stderr = functools.partial(print, file=sys.stderr)
 

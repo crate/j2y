@@ -36,7 +36,7 @@ Parse program invokation without arguments::
 
   >>> out = parse_args_safe([])
   >>> print(out)
-  usage: j2cli [-h] [-c CONTEXT] [-o OUTPUT] [-f {yaml,json,hcl}] [-x EXTRA] [-v]
+  usage: j2cli [-h] [-c CONTEXT] [-o OUTPUT] [-f {yaml,json,hcl}] [-x EXTRA] [-v] [--version]
                template
   j2cli: error: the following arguments are required: template
 

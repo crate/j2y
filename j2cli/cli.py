@@ -2,22 +2,22 @@
 j2y - a super simple Jinja2 templating command line interface
 """
 
-import os
-import sys
-import hcl
-import json
-import yaml
 import argparse
+import json
+import os
 import platform
-
+import sys
 from datetime import datetime
-
 from pathlib import Path
-from typing import Any, Callable, Dict, List, TextIO
+from typing import Any, Callable, Dict, List, Optional, TextIO
+
+import hcl
+import yaml
 from jinja2 import Environment, FileSystemLoader
 
-from j2cli.util import parse_extra, tty_size, print_stderr
+from j2cli import __version__
 from j2cli.filters import registry as filter_registry
+from j2cli.util import parse_extra, print_stderr, tty_size
 
 
 # fmt: off
@@ -73,6 +73,12 @@ def parse_args(arguments: List[str]) -> argparse.Namespace:
         help="Print the Jinja template render context prior to the rendered template."
         " The render context is printed to stdout."
     )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s " + __version__,
+        help="Show program's version number and exit.",
+    )
     return parser.parse_args(arguments)
 # fmt: on
 
@@ -86,7 +92,7 @@ def load_contexts(fps: List[TextIO], loader: Callable) -> Dict[str, Any]:
 
 def loaders() -> Dict[str, Callable]:
     return {
-        "yaml": lambda fp: yaml.load(fp.read()),
+        "yaml": lambda fp: yaml.load(fp.read(), Loader=yaml.Loader),
         "json": lambda fp: json.load(fp),
         "hcl": lambda fp: hcl.load(fp),
     }
@@ -133,8 +139,8 @@ def entrypoint(
     template: str,
     output: TextIO,
     *,
-    contexts: List[TextIO] = None,
-    extra: List[str] = None,
+    contexts: Optional[List[TextIO]] = None,
+    extra: Optional[List[str]] = None,
     format: str = "yaml",
     verbose: bool = False,
 ) -> None:

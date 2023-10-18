@@ -1,7 +1,7 @@
-import os
 import io
-
+import os
 from pathlib import Path
+
 from setuptools import setup
 
 
@@ -11,13 +11,14 @@ def read(path):
         return f.read()
 
 
+__version__ = "0.4.0"
+
 long_description = read("README.rst")
-requirements = read("requirements.txt").split("\n")
 
 
 setup(
     name="j2y",
-    url="https://github.com/chaudum/j2y",
+    url="https://github.com/crate/j2y",
     author="Christian Haudum",
     author_email="christian@christianhaudum.at",
     description="A command line interface for rendering Jinja2 templates.",
@@ -29,14 +30,25 @@ setup(
     entry_points={
         "console_scripts": ["j2y = j2cli.cli:main_deprecated", "j2cli = j2cli.cli:main"]
     },
-    python_requires=">=3.6",
-    install_requires=requirements,
-    setup_requires=["setuptools_scm"],
+    python_requires=">=3.8",
+    version=__version__,
+    install_requires=[
+        "Jinja2==3.1.2",
+        "pyhcl==0.4.5",
+        "PyYAML==6.0.1",
+        "types-PyYAML==6.0.12.12",
+    ],
     extras_require={
-        "test": ["pytest>=5.4", "pytest-flake8", "pytest-black", "pytest-mypy"],
+        "test": ["pytest>=5.4"],
+        "develop": [
+            # versions should match with version in pre-commit config
+            "flake8==3.8.4",
+            "isort==5.12.0",
+            "mypy==0.950",
+            "black==22.3.0",
+        ],
         "docs": ["Sphinx>=1.8,<1.9"],
     },
-    use_scm_version=True,
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -44,8 +56,8 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
     ],
 )

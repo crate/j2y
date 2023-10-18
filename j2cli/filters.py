@@ -1,7 +1,8 @@
-import json
-import yaml
 import hashlib
+import json
 from base64 import urlsafe_b64decode, urlsafe_b64encode
+
+import yaml
 
 UTF8 = "utf-8"
 
